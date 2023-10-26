@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API fun!</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: rgb(246, 202, 209);
+            color: black;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .data {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            background-color: white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <script type="text/javascript">
+        function request_data() {
+            var request = new XMLHttpRequest();
+            console.log("Step 1 - request object created");
+
+            if (!request) {
+                alert("Unable to create HTTPRequest object");
+                return;
+            }
+
+            var apiKey = 'TiQfd9WD6DHVWpepkQGCig==z9MsbDluSlrZrfgB';
+            var cityName = 'New Delhi';
+            var url = 'https://api.api-ninjas.com/v1/city?name=' + cityName;
+
+            request.open("GET", url, true);
+            request.setRequestHeader('X-Api-Key', apiKey); 
+            request.setRequestHeader('Content-Type', 'application/json');
+
+            console.log("Step 2 - opened request file");
+
+            request.onreadystatechange = function () {
+                console.log("Step 3 - readystatechange event fired.");
+
+                if (request.readyState == 4) {
+                    if (request.status == 200) {
+                        console.log("Step 5 - response received");
+                        var data = request.responseText;
+                        var result = JSON.parse(data);
+                        console.log(result);
+
+                        document.getElementById("data1").innerHTML += "City: " + result["0"]["name"] + "<br>";
+                        document.getElementById("data1").innerHTML += "Country: " + result["0"]["country"] + "<br>";
+                        document.getElementById("data1").innerHTML += "Population: " + result["0"]["population"] + "<br>";
+                        document.getElementById("data1").innerHTML += "Latitude: " + result["0"]["latitude"] + "<br>";
+                        document.getElementById("data1").innerHTML += "Longitude: " + result["0"]["longitude"] + "<br>";
+
+
+                    } else if (request.readyState == 4 && request.status != 200) {
+					    document.getElementById("data1").innerHTML = "ERROR: unable to read API!";
+				    }
+                }
+            }
+
+            request.send();
+            console.log("Step 4 - request sent");
+        }
+    </script>
+</head>
+<body onload="request_data()">
+    <div class="header">
+        <h1>Assignment 7: API FUN!</h1>
+    </div>
+
+    <div class="data">
+        <div id="data1"></div>
+    </div>
+
+    <div class="content">
+        <h1>Questions:</h1>
+        <h2>Describe the API you selected and what it does</h2>
+        <p> The API I selected provides information about a given city by name. 
+            In this case, it provides detail about my home country, like the name of the city,
+            the country the city is located in, its population, latitude, and longitude. 
+        </p>
+        <h2>Describe the options you used for the API request</h2>
+        <p> For this API request, I used the "GET" request to process 
+            information about a specific city. I needed to specify the city I wanted information
+            for and I also needed to use an API key which I obtained from creating an account </p>
+        <h2>Give two applications where it would be helpful</h2>
+        <p> Weather forecasting applications can utilize this data to provide accurate weather updates for a city, like new delhi. 
+            The latitude and longitude coordinates can be used to pinpoint the city's location, 
+            which is crucial for weather predictions. Also, tourism applications can 
+            make use of this data to provide information to tourists and travelers. 
+            The latitude and longitude coordinates help in mapping and navigation, 
+            allowing users to find key landmarks, attractions, and directions within the city.</p>
+        <h2>Cite the website where you found it</h2>
+        <p>URL: <a href="https://api-ninjas.com/api/city">link</a></p>
+    </div>
+</body>
+</html>
